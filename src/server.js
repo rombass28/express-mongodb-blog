@@ -4,6 +4,7 @@ const app = express();
 const port = 3000;
 const morgan = require('morgan');
 const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId;
 let db;
 
 app.use(morgan('combined'));
@@ -14,12 +15,8 @@ app.get('/', (req, res) => {
 });
 
 app.put('/user', (req, res) => {
-    const user = {
-        email: req.body.email,
-        password: req.body.password
-    };
     db.collection('users')
-        .insertOne(user)
+        .insertOne(req.body)
         .then(obj => res.status(201).json(obj.ops[0]));
 });
 
@@ -50,6 +47,12 @@ app.get('/user', (req, res) => {
         .then(users => res.json(users));
 });
 
+app.get('/user/:id/posts', (req, res) => {
+    db.collection('posts')
+        .find({userId: ObjectId(req.params.id)})
+        .toArray()
+        .then(user => res.json(user));
+});
 
 app.listen(port, () => {
     MongoClient.connect('mongodb://localhost:27017/blog', {useNewUrlParser: true})
