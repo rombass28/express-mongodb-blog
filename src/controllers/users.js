@@ -1,5 +1,6 @@
 const ObjectId = require('mongodb').ObjectId;
 const db = require('../db');
+const User = require('../models/user');
 
 module.exports = {
 	getAll: (req, res) => {
@@ -9,9 +10,9 @@ module.exports = {
 			.then(users => res.json(users));
 	},
 	createUser: (req, res) => {
-		db().collection('users')
-			.insertOne(req.body)
-			.then(obj => res.status(201).json(obj.ops[0]));
+		const user = new User(req.body);
+		user.save()
+			.then(user => res.status(201).json(user));
 	},
 	deleteUser: (req, res) => {
 		db().collection('users')
