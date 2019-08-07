@@ -1,13 +1,11 @@
-const MongoClient = require('mongodb').MongoClient;
-let db;
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/blog', {useNewUrlParser: true});
 
-MongoClient.connect('mongodb://localhost:27017/blog', {useNewUrlParser: true})
-	.then((client) => {
-		db = client.db('blog');
-		console.log('Connected to DB');
-	})
-	.catch(() => console.log('Could not connect to DB'));
+let db = mongoose.connection;
+db.on('open', () => {
+	console.log('connect');
+});
 
-module.exports = function() {
-	return db;
-};
+db.on('error', () => {
+	console.log('error');
+});
