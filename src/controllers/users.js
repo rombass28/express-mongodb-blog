@@ -9,7 +9,7 @@ module.exports = {
 			.then(users => res.json(users));
 	},
 	createUser: (req, res) => {
-		db().then().collection('users')
+		db().collection('users')
 			.insertOne(req.body)
 			.then(obj => res.status(201).json(obj.ops[0]));
 	},
