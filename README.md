@@ -1,4 +1,4 @@
-# Library - MongoDB Operators  
+# Blog - MongoDB Operators  
 This project injects fake library DB and lets you practice querying with MongoDB.
   
 ## Getting started:  
